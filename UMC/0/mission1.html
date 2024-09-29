@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      /* Resetting default margin/padding */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* 배경 색상 */
+      body {
+        background-color: #ffffff;
+      }
+
+      /* 네비게이션 바 스타일 */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        color: rgb(0, 0, 0);
+      }
+
+      /* 왼쪽 로고 */
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+
+      .logo img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+
+      .logo span {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      /* 오른쪽 메뉴 스타일 (오른쪽 정렬) */
+      .menu-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-grow: 1;
+        gap: 2rem; /* 메뉴와 이미지 간격 */
+      }
+
+      .menu {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem; /* 메뉴 항목 간의 간격 */
+      }
+
+      .menu a {
+        color: rgb(30, 30, 30);
+        text-decoration: none;
+        font-size: 0.8rem;
+      }
+
+      /* 모드 이미지 */
+      .mode {
+        width: 30px;
+        height: 30px;
+      }
+
+      .mode img {
+        width: 30px; /* 이미지 크기 조정 */
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <!-- 왼쪽: 로고 -->
+      <div class="logo">
+        <img src="KAU.png" alt="Logo" />
+        <span>KAUMC</span>
+      </div>
+
+      <!-- 오른쪽: 메뉴 및 이미지 -->
+      <div class="menu-container">
+        <div class="menu">
+          <a href="#">PROJECTS</a>
+          <a href="#">MEMBERS</a>
+          <a href="#">NOTICE</a>
+        </div>
+
+        <div class="mode">
+          <img src="mode.jpg" />
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>
