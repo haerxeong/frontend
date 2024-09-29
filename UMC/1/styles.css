@@ -58,7 +58,7 @@ li {
 }
 
 button {
-  background: #28a745;
+  background: #363836;
   color: white;
   border: none;
   padding: 5px 10px;
@@ -67,5 +67,5 @@ button {
 }
 
 button.delete {
-  background: #dc3545;
+  background: #363836;
 }
