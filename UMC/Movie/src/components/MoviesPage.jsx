@@ -10,11 +10,11 @@ const MoviesPage = ({ category }) => {
     const getMovies = async () => {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${category}`,
+          `https://api.themoviedb.org/3/movie/${category}?language=ko-KR&page=1`,
           {
             headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0YmY5YWVjMmViMDNjODYzNWIwYTcxNDhmNTc1Mzg5YyIsIm5iZiI6MTcyOTc4NzM4NC40NTU0MTIsInN1YiI6IjY3MTY4YzgxYmQ5MWM4MzgyOWQ3ODcwNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.vparVx0UK3Me8OjVCarIfH0pQ0f_prQGcSHaO1-V0WA`,
-              accept: "application/json",
+              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMWJhOGE5NTIxOGFlMGMyMzBhYWYyYTNhZTdhNTE4NSIsIm5iZiI6MTcyOTgwMTk4NC44NDk4MzYsInN1YiI6IjY3MWE2ZmJlNmQ2YjcwNWRjODcxMzM1NCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.UgJ8HH4r0TmIXjIAk4N1fWTVcngDI2TNBLHyWBSUXiA`,
+              //accept: "application/json",
             },
           }
         );
