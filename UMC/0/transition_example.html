@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+        gap: 45px;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(224, 146, 172);
+        transform: rotate(45deg);
+        transition: background-color 0.3s ease-in-out 0.1s, transform 0.5s ease;
+      }
+      .box:hover {
+        /* 마우스에 의한 변경 설정 */
+        background-color: rgb(148, 71, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+    <div class="box"></div>
+    <div class="box"></div>
+  </body>
+</html>

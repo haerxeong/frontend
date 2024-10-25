@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: cornflowerblue;
+        transition: background-color 0.5s ease-in-out 0.2s, transform 0.5s ease;
+      }
+      .box:hover {
+        background-color: tomato;
+        transform: rotate(20deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>

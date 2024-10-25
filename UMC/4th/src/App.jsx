@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar/navbar";
+import Sidebar from "./components/Sidebar/sidebar";
 import styled from "styled-components";
-import MainContent from "./components/MainContent";
 
 const App = () => {
   return (

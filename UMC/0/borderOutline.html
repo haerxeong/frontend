@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Border vs Outline Comparison</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      .container {
+        display: flex;
+        justify-content: space-around;
+      }
+      .border-example {
+        border: 5px solid blue; /* border 설정 */
+        padding: 20px;
+        margin: 20px;
+        width: 200px;
+        height: 100px;
+        background-color: lightblue;
+        box-sizing: border-box; /* padding과 border를 포함한 크기 계산 */
+      }
+
+      .outline-example {
+        outline: 5px dashed red; /* outline 설정 */
+        padding: 20px; /* outline은 padding에 영향을 주지 않음 */
+        margin: 20px;
+        width: 200px;
+        height: 100px;
+        background-color: lightgreen;
+        box-sizing: border-box; /* padding을 포함한 크기 계산 */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Border vs Outline Comparison</h1>
+    <div class="container">
+      <div class="border-example">이것은 Border입니다.</div>
+      <div class="outline-example">이것은 Outline입니다.</div>
+    </div>
+  </body>
+</html>

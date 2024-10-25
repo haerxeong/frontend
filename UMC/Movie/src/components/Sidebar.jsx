@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const SidebarContainer = styled.div`
   width: 200px;
-  background-color: #333;
+  background-color: #222;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ const SidebarItem = styled(Link)`
   gap: 10px;
   color: #fff; /* 글자색을 흰색으로 설정 */
   padding: 10px;
-  background-color: #333; /* 사이드바 색과 통일 */
+  background-color: #222; /* 사이드바 색과 통일 */
   text-decoration: none; /* 링크의 기본 밑줄 제거 */
   border-radius: 4px; /* 약간의 둥근 모서리 추가 */
 `;

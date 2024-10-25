@@ -1,7 +1,7 @@
 // / 경로에서 공유하는 layout
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar/Navbar"; // Navbar 경로 수정
-import Sidebar from "../components/Sidebar/Sidebar"; // Sidebar 경로 추가
+import Navbar from "../components/Navbar/Navbar/nav"; // Navbar 경로 수정
+import Sidebar from "../components/Sidebar/sidebar"; // Sidebar 경로 추가
 import styled from "styled-components";
 
 const RootLayoutContainer = styled.div`

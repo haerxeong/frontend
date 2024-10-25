@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .box {
+        width: 100px;
+        height: 100px;
+        background-color: rgb(224, 146, 172);
+        border-radius: 50%;
+        animation: bounce 1s ease-in-out infinite;
+      }
+      @keyframes bounce {
+        0% {
+          transform: translateY(0) scaleX(1) scaleY(1); /* 기본 상태 */
+        }
+        50% {
+          transform: translateY(250px) scaleX(1.1) scaleY(0.9); /* 바닥에 닿을 때 살짝 눌림 */
+        }
+        100% {
+          transform: translateY(0) scaleX(1) scaleY(1); /* 다시 원래 상태로 복원 */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box"></div>
+  </body>
+</html>
