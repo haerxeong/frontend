@@ -6,11 +6,12 @@ export const NavbarWrapper = styled.nav`
   align-items: center;
   background-color: #222;
   padding: 10px 20px;
+  height: 50px;
 
   .navbar-logo a {
     font-size: 24px;
     color: red;
-    font-weight: 900; /* 더 두껍게 설정 */
+    font-weight: 1000; /* 두께 설정 */
     text-decoration: none;
   }
 
