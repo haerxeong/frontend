@@ -36,7 +36,7 @@ export const Form = styled.form`
 export const SubmitButton = styled.button`
   width: 100%;
   padding: 12px;
-  background-color: ${(props) => (props.isValid ? "red" : "gray")};
+  background-color: ${(props) => (props.isValid ? "#ff1b6d" : "gray")};
   color: white;
   border: none;
   border-radius: 8px;
@@ -45,6 +45,6 @@ export const SubmitButton = styled.button`
   cursor: ${(props) => (props.isValid ? "pointer" : "not-allowed")};
 
   &:hover {
-    background-color: ${(props) => (props.isValid ? "#ff3333" : "#cccccc")};
+    background-color: ${(props) => (props.isValid ? "#ff2c7f" : "#cccccc")};
   }
 `;

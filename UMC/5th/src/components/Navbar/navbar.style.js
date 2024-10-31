@@ -10,7 +10,7 @@ export const NavbarWrapper = styled.nav`
 
   .navbar-logo a {
     font-size: 24px;
-    color: red;
+    color: #ff1b6d;
     font-weight: 1000; /* 두께 설정 */
     text-decoration: none;
   }
@@ -35,14 +35,15 @@ export const LoginButton = styled.button`
 `;
 
 export const SignupButton = styled.button`
-  background-color: red;
+  background-color: #ff1b6d;
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   text-decoration: none;
+  border-radius: 8px;
 
   &:hover {
-    background-color: darkred;
+    background-color: #cc1b6d;
   }
 `;
