@@ -1,0 +1,3 @@
+[submodule "UMC_repo"]
+	path = UMC_repo
+	url = https://github.com/7thKAUUMC/Web.git
