@@ -4,6 +4,8 @@ package-lock.json
 package.json
 ex.txt
 etc
-HTMLWorkspace
+HtmlWorkspace
 JavaScriptWorkspace
 yarn.lock
+.env
+vite.config.js

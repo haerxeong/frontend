@@ -5,7 +5,8 @@ export const SidebarWrapper = styled.aside`
   background-color: #222;
   padding: 20px;
   color: white;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
   flex-shrink: 0; /* 헉 얘 추가하니까 siebar width 유지된다 */
 
   ul {
@@ -25,7 +26,6 @@ export const SidebarButton = styled.button`
   color: white;
   border: none;
   padding: 10px; /* 상하 여백을 10px로 설정하여 높이 고정 */
-  height: 50px; /* 버튼의 고정 높이 설정 */
   width: 100%; /* 버튼을 사이드바 너비에 맞게 조정 */
   font-size: 16px;
   cursor: pointer;

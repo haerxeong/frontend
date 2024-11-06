@@ -13,6 +13,7 @@ const MainLayout = styled.div`
   display: flex;
   background-color: #000;
   flex-grow: 1;
+  min-height: 100vh; /* 전체 화면 높이 채우기 */
 `;
 
 const Content = styled.main`

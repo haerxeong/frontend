@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import * as S from "./movieDetail.style"; // 스타일 파일 import
+import * as S from "./movieDetail.style";
 
 const MovieDetail = () => {
   const { movieId } = useParams();
@@ -55,7 +55,7 @@ const MovieDetail = () => {
   const director = credits?.crew?.find(
     (person) => person?.job === "Director"
   ) || { name: "정보 없음" };
-  const cast = credits?.cast?.slice(0, 10) || []; // 10명으로 변경
+  const cast = credits?.cast?.slice(0, 18) || [];
 
   return (
     <S.DetailContainer>
@@ -75,10 +75,11 @@ const MovieDetail = () => {
             <S.Runtime>{`${Math.floor(movie.runtime / 60)}시간 ${
               movie.runtime % 60
             }분`}</S.Runtime>
+            <S.Tagline>{movie.tagline || "태그라인 정보 없음"}</S.Tagline>
             <S.Overview>{movie.overview || "개요 정보 없음"}</S.Overview>
             <S.Director>감독: {director?.name}</S.Director>
             <S.CastContainer>
-              <S.CastTitle>출연진:</S.CastTitle>
+              <S.CastTitle>출연진</S.CastTitle>
               <S.CastList>
                 {cast.length > 0 ? (
                   cast.map((actor) => (

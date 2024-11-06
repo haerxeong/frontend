@@ -12,9 +12,10 @@ const fadeIn = keyframes`
 export const DetailContainer = styled.div`
   flex: 1;
   position: relative;
-  min-height: calc(100vh - 60px); // Navbar 높이만큼 제외
+  min-height: 100vh;
   animation: ${fadeIn} 0.5s ease-in;
   overflow-x: hidden;
+  overflow-y: auto; // 스크롤 가능하게 설정
 `;
 
 export const BackgroundImage = styled.img`
@@ -57,6 +58,7 @@ export const ContentWrapper = styled.div`
 
 export const Overlay = styled.div`
   width: 100%;
+  min-height: 100%;
   background: rgba(26, 26, 26, 0.8);
   backdrop-filter: blur(10px);
   border-radius: 20px;
@@ -216,4 +218,13 @@ export const ErrorMessage = styled.div`
   background: rgba(26, 26, 26, 0.8);
   border-radius: 10px;
   backdrop-filter: blur(10px);
+`;
+
+export const Tagline = styled.p`
+  font-size: 20px;
+  font-weight: 600;
+  font-style: italic;
+  color: #d8d8d8;
+  margin-bottom: 20px;
+  max-width: 800px;
 `;

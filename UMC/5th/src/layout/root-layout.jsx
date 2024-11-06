@@ -11,14 +11,17 @@ const Layout = styled.div`
 
 const MainLayout = styled.div`
   display: flex;
+  flex-direction: row; /* 가로 방향으로 정렬 */
   background-color: #000;
-  flex-grow: 1;
-  min-height: 100vh; /* 전체 화면 높이 채우기 */
+  height: auto;
+  min-height: 100vh; /* 최소 높이를 100vh로 설정 */
 `;
 
 const Content = styled.main`
   flex-grow: 1;
   padding: 20px;
+  height: auto;
+  min-height: 100vh;
 `;
 
 const RootLayout = ({ children }) => {

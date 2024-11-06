@@ -6,6 +6,7 @@ export const SidebarWrapper = styled.aside`
   padding: 20px;
   color: white;
   height: 100vh;
+  flex-shrink: 0; /* 헉 얘 추가하니까 siebar width 유지된다 */
 
   ul {
     list-style-type: none;
