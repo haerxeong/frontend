@@ -4,6 +4,8 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as S from "./signup.style";
 import Input from "../../components/Input/input";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const schema = yup.object().shape({
@@ -31,8 +33,22 @@ const SignUp = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (data) => {
-    console.log("회원가입:", data);
+  const navigate = useNavigate();
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post("http://localhost:3000/auth/register", {
+        email: data.email,
+        password: data.password,
+        passwordCheck: data.passwordCheck,
+      });
+      console.log("회원가입 성공:", response.data);
+      // 회원가입 성공 후 로그인 페이지로 이동
+      navigate("/login");
+    } catch (error) {
+      console.error("회원가입 실패:", error.response.data);
+      // 회원가입 실패 처리
+    }
   };
 
   return (

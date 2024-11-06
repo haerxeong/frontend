@@ -28,6 +28,13 @@ export const LoginTitle = styled.h1`
   font-weight: 600;
 `;
 
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* 필드 간격 */
+`;
+
 export const Input = styled.input`
   width: 90%;
   padding: 12px 15px;

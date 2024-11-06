@@ -14,22 +14,20 @@ import MovieDetail from "./pages/MovieDetail/movieDetail";
 
 const App = () => {
   return (
-    <Router>
-      <RootLayout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/movies" element={<Movies />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/movies/now-playing" element={<NowPlaying />} />
-          <Route path="/movies/popular" element={<Popular />} />
-          <Route path="/movies/top-rated" element={<TopRated />} />
-          <Route path="/movies/up-coming" element={<Upcoming />} />
-          <Route path="/movies/:movieId" element={<MovieDetail />} />
-        </Routes>
-      </RootLayout>
-    </Router>
+    <RootLayout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/movies/now-playing" element={<NowPlaying />} />
+        <Route path="/movies/popular" element={<Popular />} />
+        <Route path="/movies/top-rated" element={<TopRated />} />
+        <Route path="/movies/up-coming" element={<Upcoming />} />
+        <Route path="/movies/:movieId" element={<MovieDetail />} />
+      </Routes>
+    </RootLayout>
   );
 };
 

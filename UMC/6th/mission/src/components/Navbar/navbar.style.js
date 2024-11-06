@@ -21,6 +21,12 @@ export const NavbarWrapper = styled.nav`
   }
 `;
 
+export const UserInfo = styled.span`
+  color: white;
+  font-size: 16px;
+  padding: 10px 5px;
+`;
+
 export const LoginButton = styled.button`
   background-color: #222;
   color: white;
@@ -29,10 +35,17 @@ export const LoginButton = styled.button`
   cursor: pointer;
   margin-right: 15px;
   text-decoration: none;
+`;
 
-  &:hover {
-    background-color: #444;
-  }
+export const LogoutButton = styled.button`
+  background-color: #222;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-right: 15px;
+  text-decoration: none;
+  font-size: 16px;
 `;
 
 export const SignupButton = styled.button`
