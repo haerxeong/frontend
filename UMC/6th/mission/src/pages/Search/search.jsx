@@ -20,15 +20,13 @@ const Search = () => {
   return (
     <>
       <S.SearchContainer>
-        <S.SearchInputContainer>
-          <S.SearchInput
-            type="text"
-            placeholder="영화 제목을 입력해주세요."
-            value={query}
-            onChange={handleSearch}
-          />
-          <S.SearchButton>검색</S.SearchButton>
-        </S.SearchInputContainer>
+        <input
+          type="text"
+          placeholder="영화 제목을 입력해주세요."
+          value={query}
+          onChange={handleSearch}
+        />
+        <button>검색</button>
       </S.SearchContainer>
 
       {isLoading && (

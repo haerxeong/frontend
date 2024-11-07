@@ -4,34 +4,28 @@ export const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
   padding: 20px;
-`;
+  margin-left: 20px;
+  margin-right: 20px;
 
-export const SearchInputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 600px;
-`;
+  input {
+    flex: 1;
+    padding: 15px;
+    border-radius: 5px 0 0 5px;
+    border: 1px solid rgb(220, 220, 220);
+  }
 
-export const SearchInput = styled.input`
-  height: 20px;
-  flex: 1;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
-`;
+  button {
+    font-size: 16px;
+    width: 80px;
+    background-color: #ff1b6d;
+    color: white;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
 
-export const SearchButton = styled.button`
-  padding: 13px 20px;
-  background-color: #ff1b6d;
-  color: white;
-  border: none;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #cc1b6d;
+    &:hover {
+      background-color: #cc1b6d;
+    }
   }
 `;
 
