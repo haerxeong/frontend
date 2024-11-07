@@ -1,20 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import * as S from "./search.style";
-import * as C from "../../components/Card/card.style";
-import Card from "../../components/Card/card.jsx";
-import useCustomFetch from "../../hooks/useCustomFetch.js";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import SearchMovieList from "../../components/Movie/search-movie-list.jsx";
+import { debounce } from "lodash";
 
 const Search = () => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(""); // search value
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams({ q: "" });
+  const q = searchParams.get("q");
 
-  const {
-    data: movies,
-    isLoading,
-    isError,
-  } = useCustomFetch(`/search/movie?query=${query}&language=ko-KR`);
+  useEffect(() => {
+    if (q) {
+      setQuery(q);
+    }
+  }, [q]);
+
+  // debounce search
+  const debouncedSearch = useCallback(
+    debounce((value) => {
+      console.log("debouncedSearch", value);
+      setQuery(value);
+    }, 300),
+    []
+  );
 
   const handleSearch = (e) => {
     setQuery(e.target.value);
+    debouncedSearch(e.target.value);
+  };
+
+  const handleSearchMovie = () => {
+    if (query === q || query === "") return;
+    navigate(`/search?q=${query}`);
+  };
+
+  const handleSearchMovieWithKeyboard = (e) => {
+    if (e.key === "Enter") {
+      handleSearchMovie();
+    }
   };
 
   return (
@@ -25,38 +49,12 @@ const Search = () => {
           placeholder="영화 제목을 입력해주세요."
           value={query}
           onChange={handleSearch}
+          onKeyDown={handleSearchMovieWithKeyboard}
         />
-        <button>검색</button>
+        <button onClick={handleSearchMovie}>검색</button>
       </S.SearchContainer>
 
-      {isLoading && (
-        <S.SkeletonContainer>
-          {Array.from({ length: 20 }).map((_, index) => (
-            <div key={index}>
-              <S.Skeleton />
-              <S.SkelotonText />
-            </div>
-          ))}
-        </S.SkeletonContainer>
-      )}
-
-      {!isLoading && isError && <h1 style={{ color: "white" }}>에러중 ㅜㅜ</h1>}
-
-      {!isLoading && !isError && query && (
-        <S.SearchResults>
-          {movies?.results?.length > 0 ? (
-            <C.CardList>
-              {movies.results.map((movie) => (
-                <Card key={movie.id} movie={movie} />
-              ))}
-            </C.CardList>
-          ) : (
-            <S.NoResultsMessage>
-              해당하는 검색어 {query}에 해당하는 데이터가 없습니다.
-            </S.NoResultsMessage>
-          )}
-        </S.SearchResults>
-      )}
+      <SearchMovieList query={q} />
     </>
   );
 };

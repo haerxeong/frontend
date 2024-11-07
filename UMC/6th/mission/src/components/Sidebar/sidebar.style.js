@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const SidebarWrapper = styled.aside`
   width: 150px; /* 사이드바의 고정 너비 설정 */
@@ -7,7 +8,7 @@ export const SidebarWrapper = styled.aside`
   color: white;
   height: auto;
   min-height: 100vh; /* 최소 높이를 100vh로 설정 */
-  flex-shrink: 0; /* 헉 얘 추가하니까 siebar width 유지된다 */
+  flex-shrink: 0; /* 사이드바 너비 유지 */
 
   ul {
     list-style-type: none;
@@ -17,18 +18,20 @@ export const SidebarWrapper = styled.aside`
   li {
     margin-bottom: 20px;
   }
+`;
 
-  button {
-    display: flex;
-    background-color: #222;
-    color: white;
-    border: none;
-    padding: 10px; /* 상하 여백을 10px로 설정하여 높이 고정 */
-    font-size: 16px;
-    cursor: pointer;
+export const SidebarLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  background-color: #222;
+  color: white;
+  text-decoration: none;
+  padding: 10px; /* 상하 여백을 10px로 설정하여 높이 고정 */
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
 
-    svg {
-      margin-right: 10px; /* 아이콘과 텍스트 간의 여백 조정 */
-    }
+  svg {
+    margin-right: 10px; /* 아이콘과 텍스트 간의 여백 조정 */
   }
 `;

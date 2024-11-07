@@ -28,38 +28,3 @@ export const SearchContainer = styled.div`
     }
   }
 `;
-
-export const SearchResults = styled.div`
-  width: 100%;
-  margin-top: 20px;
-`;
-
-export const NoResultsMessage = styled.h1`
-  display: flex;
-  justify-content: center;
-  color: white;
-`;
-
-export const SkeletonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
-`;
-
-export const Skeleton = styled.div`
-  width: 150px;
-  height: 200px;
-  background-color: #333;
-  border-radius: 10px;
-`;
-
-export const SkelotonText = styled.div`
-  flex: 1;
-  align-self: center;
-  width: 150px;
-  height: 20px;
-  background-color: #333;
-  border-radius: 5px;
-  margin-top: 10px;
-`;
