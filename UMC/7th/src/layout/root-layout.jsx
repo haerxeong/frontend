@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "../components/Navbar/navbar";
 import Sidebar from "../components/Sidebar/sidebar";
 import styled from "styled-components";
+import { Outlet } from "react-router-dom";
 
 const Layout = styled.div`
   display: flex;
@@ -24,13 +25,15 @@ const Content = styled.main`
   min-height: 100vh;
 `;
 
-const RootLayout = ({ children }) => {
+const RootLayout = () => {
   return (
     <Layout>
       <Navbar />
       <MainLayout>
         <Sidebar />
-        <Content>{children}</Content>
+        <Content>
+          <Outlet />
+        </Content>
       </MainLayout>
     </Layout>
   );
