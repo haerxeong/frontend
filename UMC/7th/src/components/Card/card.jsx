@@ -13,11 +13,11 @@ const Card = ({ movie }) => {
           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} // 이미지 URL
           alt={movie.title}
         />
-        <S.Info>
-          <S.Title>{movie.title}</S.Title>
-          <S.ReleaseDate>{movie.release_date}</S.ReleaseDate>
-        </S.Info>
       </Link>
+      <S.Info>
+        <S.Title>{movie.title}</S.Title>
+        <S.ReleaseDate>{movie.release_date}</S.ReleaseDate>
+      </S.Info>
     </S.CardContainer>
   );
 };

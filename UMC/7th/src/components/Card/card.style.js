@@ -55,3 +55,10 @@ export const Vote = styled.p`
   font-weight: bold;
   margin: 5px 0;
 `;
+
+export const LoadingContainer = styled.div`
+  margin-top: 50px;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+`;

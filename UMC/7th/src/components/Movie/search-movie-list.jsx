@@ -2,7 +2,7 @@ import React from "react";
 import Card from "../Card/card";
 import useCustomFetch from "../../hooks/useCustomFetch";
 import * as S from "./search-movie-list.style";
-import CardSkeleton from "../Card/Skeleton/card-skeleton";
+import CardListSkeleton from "../Card/Skeleton/card-list-skeleton";
 
 const SearchMovieList = ({ query }) => {
   const url = `/search/movie?query=${query}&include_adult=false&language=ko-KR&page=1`;
@@ -12,11 +12,7 @@ const SearchMovieList = ({ query }) => {
   if (isLoading) {
     return (
       <S.SearchResults>
-        {Array(14)
-          .fill()
-          .map((_, i) => (
-            <CardSkeleton key={i} />
-          ))}
+        <CardListSkeleton number={14} />
       </S.SearchResults>
     );
   }

@@ -11,12 +11,15 @@ import Popular from "./pages/Popular/popular";
 import TopRated from "./pages/TopRated/topRated";
 import Upcoming from "./pages/Upcoming/upcoming";
 import MovieDetail from "./pages/MovieDetail/movieDetail";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import NotFound from "./pages/not-found";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
-    errorElement: <div>Not Found</div>,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -67,8 +70,15 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
 };
 
 export default App;
