@@ -21,6 +21,7 @@ const NowPlayingMoviesPage = () => {
   const {
     data: movies,
     isFetching,
+    isError,
     hasNextPage,
     fetchNextPage,
   } = UseGetInfiniteMovies("now_playing");
@@ -49,9 +50,9 @@ const NowPlayingMoviesPage = () => {
   //   );
   // }
 
-  // if (isError) {
-  //   return <h1 style={{ color: "white" }}>에러중 ㅜㅜ</h1>;
-  // }
+  if (isError) {
+    return <h1 style={{ color: "white" }}>에러가 발생했습니다.</h1>;
+  }
 
   //console.log(movies);
 
