@@ -12,6 +12,7 @@ const TopRatedMoviesPage = () => {
     isFetching,
     hasNextPage,
     fetchNextPage,
+    isError,
   } = UseGetInfiniteMovies("top_rated");
 
   const { ref, inView } = useInView({
@@ -24,9 +25,11 @@ const TopRatedMoviesPage = () => {
     }
   }, [inView, isFetching, hasNextPage, fetchNextPage]);
 
-  if (isError) {
-    return <h1 style={{ color: "white" }}>에러가 발생했습니다.</h1>;
-  }
+  // if (isError) {
+  //   return <h1 style={{ color: "white" }}>에러가 발생했습니다.</h1>;
+  // }
+
+  console.log(movies);
 
   return (
     <>
