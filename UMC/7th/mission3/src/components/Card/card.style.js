@@ -62,3 +62,27 @@ export const LoadingContainer = styled.div`
   width: 100%;
   display: flex;
 `;
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: 40px 0;
+`;
+
+export const PageButton = styled.button`
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: ${(props) => (props.disabled ? "#444" : "#ff1b6d")};
+  color: white;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+`;
+
+export const CurrentPage = styled.span`
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+`;

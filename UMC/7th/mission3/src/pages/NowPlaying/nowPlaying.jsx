@@ -1,81 +1,60 @@
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Card from "../../components/Card/card.jsx";
-import * as S from "../../components/Card/card.style.js";
-import UseGetInfiniteMovies from "../../hooks/queries/useGetInfiniteMovies.js";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
+import useGetMovies from "../../hooks/queries/useGetMovies.js";
 import CardListSkeleton from "../../components/Card/Skeleton/card-list-skeleton.jsx";
+import * as S from "../../components/Card/card.style.js";
 
 const NowPlayingMoviesPage = () => {
-  // const {
-  //   data: movies,
-  //   isPending,
-  //   isError,
-  // } = useQuery({
-  //   queryFn: () => useGetMovies({ category: "now_playing", pageParam: 1 }),
-  //   queryKey: ["movies", "now_playing"],
-  //   cacheTime: 10000,
-  //   staleTime: 10000,
-  // });
+  const [currentPage, setCurrentPage] = useState(1);
 
   const {
     data: movies,
-    isFetching,
+    isLoading,
     isError,
-    hasNextPage,
-    fetchNextPage,
-  } = UseGetInfiniteMovies("now_playing");
-
-  const { ref, inView } = useInView({
-    threshold: 0,
-    //delay:
+  } = useQuery({
+    queryKey: ["movies", "now_playing", currentPage],
+    queryFn: () =>
+      useGetMovies({ category: "now_playing", pageParam: currentPage }),
   });
 
-  useEffect(() => {
-    if (inView) {
-      !isFetching && hasNextPage && fetchNextPage();
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
     }
-  }, [inView, isFetching, hasNextPage, fetchNextPage]);
+  };
 
-  // if (isPending) {
-  //   return (
-  //     //<h1 style={{ color: "white" }}>로딩중...</h1>
-  //     <S.CardList>
-  //       {Array(14)
-  //         .fill()
-  //         .map((_, i) => (
-  //           <CardSkeleton key={i} />
-  //         ))}
-  //     </S.CardList>
-  //   );
-  // }
+  const handleNextPage = () => {
+    if (currentPage < movies?.total_pages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
 
   if (isError) {
     return <h1 style={{ color: "white" }}>에러가 발생했습니다.</h1>;
   }
 
-  //console.log(movies);
-
   return (
     <>
       <S.CardList>
-        {movies?.pages
-          ?.map((page) => page.results)
-          ?.flat() // 2차원 배열을 1차원 배열로 변환
-          ?.map((movie, _) => (
-            <Card key={movie.id} movie={movie} />
-          ))}
-
-        {/* {movies?.pages.map((page) => {
-          return page.results.map((movie, _) => {
-            return <Card key={movie.id} movie={movie} />;
-          });
-        })} */}
-        {isFetching && <CardListSkeleton number={20} />}
+        {movies?.results?.map((movie) => (
+          <Card key={movie.id} movie={movie} />
+        ))}
+        {isLoading && <CardListSkeleton number={20} />}
       </S.CardList>
-      <S.LoadingContainer ref={ref}>
-        {isFetching && <ClipLoader color="white" />}
-      </S.LoadingContainer>
+
+      <S.PaginationContainer>
+        <S.PageButton onClick={handlePrevPage} disabled={currentPage === 1}>
+          이전
+        </S.PageButton>
+        <S.CurrentPage>{currentPage}</S.CurrentPage>
+        <S.PageButton
+          onClick={handleNextPage}
+          disabled={currentPage === movies?.total_pages}
+        >
+          다음
+        </S.PageButton>
+      </S.PaginationContainer>
     </>
   );
 };
