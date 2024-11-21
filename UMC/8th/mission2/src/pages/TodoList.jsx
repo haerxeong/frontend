@@ -9,7 +9,7 @@ import TodoItem from "../components/Item/item";
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
-  const [editingId, setEditingId] = useState(""); // editingId 상태 추가
+  const [editingId, setEditingId] = useState("");
   const [editText, setEditText] = useState("");
   const { getTodos, isLoading, error } = useTodoApi();
   const navigate = useNavigate();
