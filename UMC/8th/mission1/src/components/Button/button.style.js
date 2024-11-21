@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const StyledButton = styled.button`
   padding: 10px 20px;
-  background-color: ${(props) => (props.disabled ? "#ccc" : "#ff1b6d")};
+  background-color: ${(props) => (props.disabled ? "#ccc" : "#111")};
   color: white;
   border: none;
   border-radius: 4px;
