@@ -1,294 +1,275 @@
 import styled from "styled-components";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import TodoDetail from "./pages/TodoDetail";
-import { useEffect, useState } from "react";
-import Button from "./components/Button/button";
-import Form from "./components/Form/form";
-import Input from "./components/Input/input";
-import { useDebounce } from "./hooks/useDebounce";
-import {
-  getTodo,
-  postTodo,
-  getTodoList,
-  patchTodo,
-  deleteTodo,
-} from "./apis/todo";
+import { useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getTodoList, postTodo, deleteTodo, patchTodo } from "./apis/todo";
+import { queryClient } from "./main";
 
 function App() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [todos, setTodos] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(null);
   const [search, setSearch] = useState("");
-  const [editingId, setEditingId] = useState(null);
-  const [editTitle, setEditTitle] = useState("");
-  const [editContent, setEditContent] = useState("");
 
-  const debouncedSearch = useDebounce(search, 500);
+  const { data: todos, isPending } = useQuery({
+    queryFn: () => getTodoList({ title: search }),
+    queryKey: ["todos", search],
+  });
 
-  const navigate = useNavigate();
-
-  const fetchTodos = async () => {
-    try {
-      setIsLoading(true);
-      const response = await getTodoList({ title: debouncedSearch });
-      setTodos(response[0]);
-    } catch (error) {
-      setIsError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchTodos();
-  }, [debouncedSearch]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      await postTodo({ title, content });
+  const { mutate: postTodoMutation } = useMutation({
+    mutationFn: postTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
       setTitle("");
       setContent("");
-      await fetchTodos(); // 목록 새로고침
-    } catch (error) {
-      setIsError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    onError: (error) => {
+      console.error("Todo 생성 실패:", error);
+    },
+    onSettled: () => {
+      setSearch("");
+    },
+  });
 
-  const handleCheckboxChange = async (id, checked) => {
-    try {
-      setIsLoading(true);
-      await patchTodo({ id, checked });
-      await fetchTodos(); // 상태 갱신
-    } catch (error) {
-      console.error("체크박스 업데이트 중 오류 발생", error);
-      setIsError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { mutate: deleteTodoMutation } = useMutation({
+    mutationFn: deleteTodo,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+    onError: (error) => {
+      console.error("Todo 삭제 실패:", error);
+    },
+  });
 
-  const handleEdit = (todo) => {
-    setEditingId(todo.id);
-    setEditTitle(todo.title);
-    setEditContent(todo.content);
-  };
+  const { mutate: patchTodoMutation } = useMutation({
+    mutationFn: patchTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos"],
+      });
+    },
+    onError: (error) => {
+      console.error("Todo 수정 실패:", error);
+    },
+  });
 
-  const handleUpdate = async (id) => {
-    try {
-      setIsLoading(true);
-      await patchTodo({ id, title: editTitle, content: editContent });
-      setEditingId(null);
-      await fetchTodos(); // 상태 갱신
-    } catch (error) {
-      console.error("수정 중 오류 발생", error);
-      setIsError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDelete = async (id) => {
-    try {
-      setIsLoading(true);
-      await deleteTodo({ id });
-      await fetchTodos(); // 상태 갱신
-    } catch (error) {
-      console.error("삭제 중 오류 발생", error);
-      setIsError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleTodoClick = (id) => {
-    navigate(`/todo/${id}`);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!title.trim() || !content.trim()) return;
+    postTodoMutation({ title, content });
   };
 
   return (
-    <Container>
-      <Title> 💖 Todo List 💖 </Title>
-      <Form onSubmit={handleSubmit}>
-        <SearchInput
-          type="text"
-          placeholder="제목으로 검색..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <Input
-          name="title"
-          placeholder="제목을 입력해주세요."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <Input
-          name="content"
-          placeholder="내용을 입력해주세요."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <Button type="submit" disabled={isLoading || !title || !content}>
-          추가
-        </Button>
-      </Form>
-      {isLoading && <LoadingSpinner />}
-      {isError && (
-        <ErrorMessage>에러가 발생했습니다: {isError.message}</ErrorMessage>
-      )}
-      {todos?.map((todo) => (
-        <div key={todo.id}>
-          <TodoListContainer>
-            <input
-              type="checkbox"
-              checked={todo.checked}
-              onChange={() => handleCheckboxChange(todo.id, !todo.checked)}
-              disabled={isLoading}
-            />
-            <p>{todo.id}</p>
-            <TodoItemContainer>
-              {editingId === todo.id ? (
-                <>
-                  <Input
-                    name="editTitle"
-                    placeholder="제목을 입력해주세요."
-                    value={editTitle}
-                    onChange={(e) => setEditTitle(e.target.value)}
-                  />
-                  <Input
-                    name="editContent"
-                    placeholder="내용을 입력해주세요."
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                  />
-                  <Button
-                    onClick={() => handleUpdate(todo.id)}
-                    disabled={isLoading}
-                  >
-                    수정 완료
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <p onClick={() => handleTodoClick(todo.id)}>{todo.title}</p>
-                  <p onClick={() => handleTodoClick(todo.id)}>{todo.content}</p>
-                  <Button onClick={() => handleEdit(todo)} disabled={isLoading}>
-                    수정
-                  </Button>
-                </>
-              )}
+    <AppWrapper>
+      <AppContainer>
+        <Title>✨ Todo List ✨</Title>
 
-              <Button
-                onClick={() => handleDelete(todo.id)}
-                disabled={isLoading}
-              >
-                삭제
-              </Button>
-            </TodoItemContainer>
-          </TodoListContainer>
-        </div>
-      ))}
-    </Container>
+        <SearchContainer>
+          <SearchInput
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="할 일 검색하기..."
+          />
+        </SearchContainer>
+
+        <Form onSubmit={handleSubmit}>
+          <Input
+            name="title"
+            placeholder="제목을 입력해주세요"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <Input
+            name="content"
+            placeholder="내용을 입력해주세요"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+          <SubmitButton type="submit">새로운 할 일 추가하기</SubmitButton>
+        </Form>
+
+        {isPending ? (
+          <LoadingSpinner>로딩중...</LoadingSpinner>
+        ) : (
+          <TodoList>
+            {todos[0].map((todo) => (
+              <TodoItem key={todo.id} $checked={todo.checked}>
+                <TodoCheckbox
+                  type="checkbox"
+                  checked={todo.checked}
+                  onChange={() =>
+                    patchTodoMutation({ id: todo.id, checked: !todo.checked })
+                  }
+                />
+                <TodoContent>
+                  <TodoTitle $checked={todo.checked}>{todo.title}</TodoTitle>
+                  <TodoText>{todo.content}</TodoText>
+                </TodoContent>
+                <DeleteButton
+                  onClick={() => deleteTodoMutation({ id: todo.id })}
+                >
+                  삭제
+                </DeleteButton>
+              </TodoItem>
+            ))}
+          </TodoList>
+        )}
+      </AppContainer>
+    </AppWrapper>
   );
 }
 
-const AppWrapper = () => (
-  <BrowserRouter>
-    <Routes>
-      <Route path="/todo" element={<App />} />
-      <Route path="/todo/:id" element={<TodoDetail />} />
-    </Routes>
-  </BrowserRouter>
-);
+export default App;
 
-export default AppWrapper;
-
-const TodoItemContainer = styled.div`
-  width: 100%;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+const AppWrapper = styled.div`
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 40px 20px;
 `;
 
-const TodoListContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 15px;
-  background: linear-gradient(135deg, #f6f8f9 0%, #e5ebee 100%);
-  border-radius: 12px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  & > * {
-    margin-right: 10px;
-  }
+const AppContainer = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
 `;
 
 const Title = styled.h1`
   text-align: center;
-  font-size: 2.8rem;
-  margin-bottom: 30px;
-  font-weight: 800;
+  color: #2d3436;
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  font-weight: 700;
 `;
 
-const Container = styled.div`
-  max-width: 600px;
-  margin: 50px auto;
-  padding: 30px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  border: 1px solid #f0f0f0;
+const SearchContainer = styled.div`
+  margin-bottom: 30px;
 `;
 
 const SearchInput = styled.input`
-  width: 80%;
-  padding: 10px;
-  margin: 20px 0;
+  width: 100%;
+  padding: 15px 20px;
   border: 2px solid #e0e0e0;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: #2575fc;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+  }
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 40px;
+`;
+
+const Input = styled.input`
+  padding: 15px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+  }
+`;
+
+const SubmitButton = styled.button`
+  padding: 15px;
+  background: #6c5ce7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #5f3dc4;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+const TodoList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
+const TodoItem = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: ${(props) => (props.$checked ? "#f8f9fa" : "white")};
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+`;
+
+const TodoCheckbox = styled.input`
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  cursor: pointer;
+`;
+
+const TodoContent = styled.div`
+  flex: 1;
+`;
+
+const TodoTitle = styled.h3`
+  margin: 0;
+  color: #2d3436;
+  font-size: 1.1rem;
+  text-decoration: ${(props) => (props.$checked ? "line-through" : "none")};
+  opacity: ${(props) => (props.$checked ? 0.7 : 1)};
+`;
+
+const TodoText = styled.p`
+  margin: 5px 0 0;
+  color: #636e72;
+  font-size: 0.9rem;
+`;
+
+const DeleteButton = styled.button`
+  padding: 8px 15px;
+  background: #ff7675;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #d63031;
   }
 `;
 
 const LoadingSpinner = styled.div`
-  border: 4px solid rgba(37, 117, 252, 0.2);
-  border-top-color: #2575fc;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;
-
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-`;
-
-const ErrorMessage = styled.div`
-  color: #ff4d4f;
-  background-color: #fff1f0;
-  border: 1px solid #ffa39e;
   text-align: center;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
+  color: #6c5ce7;
+  font-size: 1.1rem;
+  padding: 20px;
 `;
