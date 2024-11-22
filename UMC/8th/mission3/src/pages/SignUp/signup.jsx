@@ -6,6 +6,7 @@ import * as S from "./signup.style";
 import Input from "../../components/Input/input";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 const SignUp = () => {
   const schema = yup.object().shape({
@@ -35,20 +36,27 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    try {
-      const response = await axios.post("http://localhost:3000/auth/register", {
-        email: data.email,
-        password: data.password,
-        passwordCheck: data.passwordCheck,
-      });
-      console.log("회원가입 성공:", response.data);
-      // 회원가입 성공 후 로그인 페이지로 이동
+  const postSignUp = async (data) => {
+    const response = await axios.post(
+      "http://localhost:3000/auth/register",
+      data
+    );
+    return response.data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: postSignUp,
+    onSuccess: (data) => {
+      console.log("회원가입 성공:", data);
       navigate("/login");
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error("회원가입 실패:", error.response.data);
-      // 회원가입 실패 처리
-    }
+    },
+  });
+
+  const onSubmit = (data) => {
+    mutation.mutate(data);
   };
 
   return (
@@ -77,7 +85,10 @@ const SignUp = () => {
             error={errors.passwordCheck}
           />
 
-          <S.SubmitButton type="submit" disabled={!isValid} isValid={isValid}>
+          <S.SubmitButton
+            type="submit"
+            disabled={!isValid || mutation.isLoading}
+          >
             가입하기
           </S.SubmitButton>
         </S.Form>

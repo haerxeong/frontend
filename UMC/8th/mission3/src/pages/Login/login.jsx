@@ -5,6 +5,7 @@ import { validateLogin } from "../../utils/validate";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { useMutation } from "@tanstack/react-query";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,28 +19,38 @@ const Login = () => {
     validateLogin
   );
 
-  const handlePressLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3000/auth/login", {
-        email: loginForm.values.email,
-        password: loginForm.values.password,
-      });
-      console.log("로그인 성공:", response.data);
+  const postLogin = async (data) => {
+    const response = await axios.post("http://localhost:3000/auth/login", {
+      email: data.email,
+      password: data.password,
+    });
+    return response.data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: postLogin,
+    onSuccess: (data) => {
+      console.log("로그인 성공:", data);
 
       // AccessToken과 RefreshToken을 로컬 스토리지에 저장
-      localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
 
       // 로그인 상태 업데이트
       login();
 
       // 로그인 성공 후 메인 페이지로 이동
       navigate("/");
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error("로그인 실패:", error.response.data);
       // 로그인 실패 처리
-    }
+    },
+  });
+
+  const handlePressLogin = (e) => {
+    e.preventDefault();
+    mutation.mutate(loginForm.values);
   };
 
   return (
@@ -70,6 +81,7 @@ const Login = () => {
           <S.SubmitButton
             onClick={handlePressLogin}
             isValid={!loginForm.errors.email && !loginForm.errors.password}
+            disabled={mutation.isLoading}
           >
             로그인
           </S.SubmitButton>

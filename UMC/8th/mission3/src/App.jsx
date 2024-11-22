@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RootLayout from "./layout/root-layout";
 import Home from "./pages/Home/home";
 import Login from "./pages/Login/login";
-import Signup from "./pages/Signup/signup";
+import SignUp from "./pages/SignUp/signup";
 import Movies from "./pages/Movies/movies";
 import Search from "./pages/Search/search";
 import NowPlaying from "./pages/NowPlaying/nowPlaying";
@@ -14,6 +14,7 @@ import MovieDetail from "./pages/MovieDetail/movieDetail";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import NotFound from "./pages/not-found";
+import SubscribePage from "./pages/Subscribe/subscribe";
 
 const router = createBrowserRouter([
   {
@@ -64,7 +65,11 @@ const router = createBrowserRouter([
       },
       {
         path: "signup",
-        element: <Signup />,
+        element: <SignUp />,
+      },
+      {
+        path: "subscribe",
+        element: <SubscribePage />,
       },
     ],
   },

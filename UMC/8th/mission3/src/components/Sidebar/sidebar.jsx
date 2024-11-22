@@ -1,5 +1,12 @@
 import React from "react";
-import { FaSearch, FaFilm } from "react-icons/fa";
+import {
+  FaSearch,
+  FaFilm,
+  FaSubscript,
+  FaFilter,
+  FaCheck,
+  FaCheckCircle,
+} from "react-icons/fa";
 import { SidebarWrapper, SidebarLink } from "./sidebar.style";
 
 const Sidebar = () => {
@@ -16,6 +23,11 @@ const Sidebar = () => {
             <FaFilm /> 영화
           </SidebarLink>
         </li>
+        <l1>
+          <SidebarLink to="/subscribe">
+            <FaCheckCircle /> 구독
+          </SidebarLink>
+        </l1>
       </ul>
     </SidebarWrapper>
   );
