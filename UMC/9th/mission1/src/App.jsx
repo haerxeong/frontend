@@ -1,17 +1,18 @@
 import Navbar from "./components/Navbar";
 import CartContainer from "./components/CartContainer";
 import Footer from "./components/Footer";
+import "./App.css";
 
 function App() {
   return (
     <>
-      <header>
+      <header className="header-container">
         <Navbar />
       </header>
-      <main>
+      <main className="main-container">
         <CartContainer />
       </main>
-      <footer>
+      <footer className="footer-container">
         <Footer />
       </footer>
     </>

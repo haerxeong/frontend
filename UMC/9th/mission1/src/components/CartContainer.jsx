@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react"; // useEffect 추가
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice.js";
+import { clearCart, calculateTotals } from "../features/cart/cartSlice.js"; // calculateTotals 추가
 import CartItem from "./CartItem";
 import {
   CartSection,
@@ -13,6 +13,10 @@ import {
 const CartContainer = () => {
   const { cartItems, total, amount } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(calculateTotals());
+  }, [cartItems, dispatch]); // cartItems가 변경될 때마다 total과 amount 재계산
 
   if (amount < 1) {
     return (
