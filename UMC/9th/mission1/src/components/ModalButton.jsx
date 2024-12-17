@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice.jsx";
+import { clearCart } from "../features/cart/cartSlice.js";
 import {
   ButtonContainer,
   ConfirmButton,

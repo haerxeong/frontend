@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"; // useEffect 추가
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart, calculateTotals } from "../features/cart/cartSlice.js"; // calculateTotals 추가
-import CartItem from "./CartItem";
+import CartItem from "./CartItem.jsx";
 import {
   CartSection,
   CartHeader,
@@ -9,6 +9,7 @@ import {
   CartFooter,
   ClearButton,
 } from "./CartContainer.style.js";
+import { openModal } from "../features/modal/modalSlice.js";
 
 const CartContainer = () => {
   const { cartItems, total, amount } = useSelector((store) => store.cart);
@@ -46,7 +47,7 @@ const CartContainer = () => {
             총 가격 <span>\ {total}원</span>
           </h4>
         </div>
-        <ClearButton onClick={() => dispatch(clearCart())}>
+        <ClearButton onClick={() => dispatch(openModal())}>
           장바구니 초기화
         </ClearButton>
       </CartFooter>

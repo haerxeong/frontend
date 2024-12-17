@@ -1,27 +1,19 @@
 import Navbar from "./components/Navbar";
 import CartContainer from "./components/CartContainer";
 import Footer from "./components/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { calculateTotlas } from "./features/cart/cartSlice";
-import ModalPortal from "./components/ModalPortal";
+import "./App.css";
+import ModalPortal from "../../mission1/src/components/ModalPortal";
 import Modal from "./components/Modal";
+import { useSelector } from "react-redux";
 
 function App() {
-  const dispatch = useDispatch();
-  const { cartItems } = useSelector((store) => store.cart);
-  const { isOpen } = useSelector((store) => store.modal);
-
-  useEffect(() => {
-    dispatch(calculateTotlas());
-  }, [cartItems, dispatch]);
-
+  const { isOpen } = useSelector((state) => state.modal);
   return (
     <>
-      <header>
+      <header className="header-container">
         <Navbar />
       </header>
-      <main>
+      <main className="main-container">
         <CartContainer />
         {isOpen && (
           <ModalPortal>
@@ -31,9 +23,10 @@ function App() {
           </ModalPortal>
         )}
       </main>
-      <footer>
+      <footer className="footer-container">
         <Footer />
       </footer>
     </>
   );
 }
+export default App;

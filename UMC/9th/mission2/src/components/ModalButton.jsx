@@ -1,33 +1,36 @@
 import { useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice";
+import { clearCart } from "../features/cart/cartSlice.js";
+import {
+  ButtonContainer,
+  ConfirmButton,
+  CancelButton,
+} from "./ModalButton.style.js";
+import { closeModal } from "../features/modal/modalSlice.js";
 
 const ModalButton = () => {
   const dispatch = useDispatch();
-  //   const {isOpen} = useSelector((state) => state.modal);
+
   return (
-    <div className="btn-container">
-      <button
+    <ButtonContainer>
+      <ConfirmButton
         type="button"
-        className="btn confirm-btn"
         onClick={() => {
           dispatch(clearCart());
-          //TODO: 모달을 닫는 함수를 호출해야 합니다.
+          // TODO: 모달도 꺼지는 상태를 연결
           dispatch(closeModal());
         }}
       >
         네
-      </button>
-      <button
+      </ConfirmButton>
+      <CancelButton
         type="button"
-        className="btn clear-btn"
         onClick={() => {
-          //TODO: 모달을 닫는 함수를 호출해야 합니다.
           dispatch(closeModal());
         }}
       >
-        아니오
-      </button>
-    </div>
+        아니요
+      </CancelButton>
+    </ButtonContainer>
   );
 };
 

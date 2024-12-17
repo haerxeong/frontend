@@ -1,44 +1,53 @@
 import React from "react";
+import { ChevronDown, ChevronUp } from "../constants/icons";
 import { useDispatch } from "react-redux";
-import { increase, decrease, removeItem } from "../features/cart/cartSlice";
-import { ChevronUp, ChevronDown } from "react-feather";
+import { removeItem, increase, decrease } from "../features/cart/cartSlice";
+import {
+  CartItemContainer,
+  ItemInfo,
+  ItemImage,
+  ItemDetails,
+  ControlGroup,
+  AmountControl,
+  RemoveButton,
+} from "./CartItem.style";
 
-const dispatch = useDispatch();
+const CartItem = ({ id, img, title, price, amount }) => {
+  const dispatch = useDispatch();
 
-const CartItem = ({ id, title, singer, price, img, amount }) => {
   return (
-    <article className="cart-item">
-      <div>
-        <h4>
-          {title} | {singer}
-        </h4>
-        <h4 className="item-price">₩{price}</h4>
-      </div>
+    <CartItemContainer>
+      <ItemInfo>
+        <ItemImage src={img} alt={title} />
+        <ItemDetails>
+          <h4>{title}</h4>
+          <p>₩ {price}</p>
+        </ItemDetails>
+      </ItemInfo>
 
-      <div>
-        {/* 수량 증가 버튼 */}
-        <button className="amount-btn" onClick={() => dispatch(increase(id))}>
-          <ChevronUp />
-        </button>
-
-        {/* 수량 */}
-        <p className="amount">{amount}</p>
-
-        {/* 수량 감소 버튼 */}
-        <button
-          className="amount-btn"
-          onClick={() => {
-            if (amount === 1) {
-              dispatch(removeItem(id)); // 수량이 1이면 아이템 삭제
-              return;
-            }
-            dispatch(decrease(id)); // 수량 감소
-          }}
-        >
-          <ChevronDown />
-        </button>
-      </div>
-    </article>
+      <ControlGroup>
+        <AmountControl>
+          <button onClick={() => dispatch(increase(id))}>
+            <ChevronUp />
+          </button>
+          <p>{amount}</p>
+          <button
+            onClick={() => {
+              if (amount === 1) {
+                dispatch(removeItem(id));
+                return;
+              }
+              dispatch(decrease(id));
+            }}
+          >
+            <ChevronDown />
+          </button>
+        </AmountControl>
+        <RemoveButton onClick={() => dispatch(removeItem(id))}>
+          삭제
+        </RemoveButton>
+      </ControlGroup>
+    </CartItemContainer>
   );
 };
 
